@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="headline"
+            type="com.diskin.alon.newsreader.news.presentation.model.UiHeadline" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/headlineImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:loadImage="@{headline.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars[4]"/>
+
+            <TextView
+                android:id="@+id/headlineTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="@{headline.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headlineImage"
+                tools:text="@string/stub_headline_title"/>
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48dp"
+                app:layout_constraintEnd_toEndOf="@id/imageButton2"
+                app:layout_constraintTop_toTopOf="@id/imageButton2"
+                app:srcCompat="@drawable/ic_round_share_24" />
+
+            <TextView
+                android:id="@+id/headlineDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{headline.date}"
+                tools:text="@string/stub_headline_date"
+                android:layout_margin="16dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/headlineTitle" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/headlineDate"
+                app:srcCompat="@drawable/ic_round_bookmark_border_24" />
+
+            <TextView
+                android:id="@+id/headlineSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{headline.sourceName}"
+                tools:text="@string/stub_headline_source"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="@id/headlineDate"
+                app:layout_constraintTop_toBottomOf="@id/headlineDate" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

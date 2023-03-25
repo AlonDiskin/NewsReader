@@ -1,0 +1,23 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    // Javax
+    implementation "javax.inject:javax.inject:$javaxAnnotationVersion"
+
+    // Paging
+    api "androidx.paging:paging-common-ktx:$pagingVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    // Unit testing
+    testImplementation project(':features:common:unitTesting')
+}

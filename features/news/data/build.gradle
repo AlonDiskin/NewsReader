@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+// Hide news api key
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
+android {
+    namespace 'com.diskin.alon.newsreader.news.data'
+    compileSdk sdkVersion
+
+    defaultConfig {
+        minSdk 21
+        targetSdk sdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "NEWS_API_KEY", localProperties['newsApiKey']
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+dependencies {
+
+    // project modules
+    implementation project(':features:news:application')
+
+    // Android core
+    implementation "androidx.core:core-ktx:$androidCoreVersion"
+    implementation "androidx.appcompat:appcompat:$androidAppCompatVersion"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    // Paging library
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+
+    // Joda
+    implementation "joda-time:joda-time:2.10.4"
+
+    // Local testing
+    testImplementation project(':features:common:unitTesting')
+    testImplementation "androidx.paging:paging-common-ktx:$pagingVersion"
+    testImplementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    testImplementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    testImplementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation "com.squareup.okhttp3:mockwebserver:3.9.1"
+}

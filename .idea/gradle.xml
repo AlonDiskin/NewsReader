@@ -11,6 +11,20 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/common" />
+            <option value="$PROJECT_DIR$/features/common/instrumentationTesting" />
+            <option value="$PROJECT_DIR$/features/common/presentation" />
+            <option value="$PROJECT_DIR$/features/common/uiTesting" />
+            <option value="$PROJECT_DIR$/features/common/unitTesting" />
+            <option value="$PROJECT_DIR$/features/home" />
+            <option value="$PROJECT_DIR$/features/home/presentation" />
+            <option value="$PROJECT_DIR$/features/news" />
+            <option value="$PROJECT_DIR$/features/news/application" />
+            <option value="$PROJECT_DIR$/features/news/data" />
+            <option value="$PROJECT_DIR$/features/news/di" />
+            <option value="$PROJECT_DIR$/features/news/featureTesting" />
+            <option value="$PROJECT_DIR$/features/news/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

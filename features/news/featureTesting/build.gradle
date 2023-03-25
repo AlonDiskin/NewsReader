@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.diskin.alon.newsreader.news.featuretesting'
+    compileSdk sdkVersion
+
+    defaultConfig {
+        minSdk 21
+        targetSdk sdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    // Robolectric
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    // Data binding
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+dependencies {
+
+    testImplementation project(':features:news:di')
+    testImplementation project(':features:common:unitTesting')
+    testImplementation project(':features:common:uiTesting')
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    testImplementation "com.google.dagger:hilt-android:$hiltVersion"
+    kaptTest "com.google.dagger:hilt-compiler:$hiltVersion"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    kaptTest "androidx.databinding:databinding-compiler:$dataBindingCompilerVersion"
+    testImplementation "androidx.navigation:navigation-testing:$navComponentVersion"
+    testImplementation "com.mauriciotogneri:greencoffee:$greencoffeeVersion"
+    testImplementation "androidx.paging:paging-common-ktx:$pagingVersion"
+    testImplementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation "joda-time:joda-time:2.10.4"
+}

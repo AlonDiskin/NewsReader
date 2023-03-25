@@ -10,7 +10,18 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
 }
 rootProject.name = "NewsReader"
 include ':app'
+include ':features:common:presentation'
+include ':features:common:unitTesting'
+include ':features:common:instrumentationTesting'
+include ':features:common:uiTesting'
+include ':features:news:featureTesting'
+include ':features:news:application'
+include ':features:news:data'
+include ':features:news:presentation'
+include ':features:home:presentation'
+include ':features:news:di'
