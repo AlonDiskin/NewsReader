@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.diskin.alon.newsreader.news.presentation.databinding.HeadlineBinding
 import com.diskin.alon.newsreader.news.presentation.model.UiHeadline
 
-class HeadlinesAdapter : PagingDataAdapter<UiHeadline, HeadlinesAdapter.HeadlineViewHolder>(
+class HeadlinesAdapter(
+    private val shareClickListener: (UiHeadline) -> (Unit)
+) : PagingDataAdapter<UiHeadline, HeadlinesAdapter.HeadlineViewHolder>(
     DIFF_CALLBACK
 ){
 
@@ -32,7 +34,7 @@ class HeadlinesAdapter : PagingDataAdapter<UiHeadline, HeadlinesAdapter.Headline
             false
         )
 
-        return HeadlineViewHolder(binding)
+        return HeadlineViewHolder(binding,shareClickListener)
     }
 
     override fun onBindViewHolder(holder: HeadlineViewHolder, position: Int) {
@@ -40,8 +42,13 @@ class HeadlinesAdapter : PagingDataAdapter<UiHeadline, HeadlinesAdapter.Headline
     }
 
     class HeadlineViewHolder(
-        private val binding: HeadlineBinding
+        private val binding: HeadlineBinding,
+        private val shareClickListener: (UiHeadline) -> (Unit)
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.shareClickListener = shareClickListener
+        }
 
         fun bind(headline: UiHeadline) {
             binding.headline = headline

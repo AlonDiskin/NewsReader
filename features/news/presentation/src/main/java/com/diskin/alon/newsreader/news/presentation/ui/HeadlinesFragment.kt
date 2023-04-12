@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.CombinedLoadStates
@@ -13,6 +14,7 @@ import androidx.paging.LoadState
 import com.diskin.alon.newsreader.news.application.util.NewsFeatureError
 import com.diskin.alon.newsreader.news.presentation.R
 import com.diskin.alon.newsreader.news.presentation.databinding.FragmentHeadlinesBinding
+import com.diskin.alon.newsreader.news.presentation.model.UiHeadline
 import com.diskin.alon.newsreader.news.presentation.viewmodel.HeadlinesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
@@ -33,7 +35,7 @@ class HeadlinesFragment : Fragment() {
         layout = FragmentHeadlinesBinding.inflate(inflater,container,false)
 
         // Setup headlines adapter
-        val adapter = HeadlinesAdapter()
+        val adapter = HeadlinesAdapter(::onShareButtonClick)
         layout.headlines.adapter = adapter
 
         // Observe view model ui state
@@ -77,5 +79,15 @@ class HeadlinesFragment : Fragment() {
         // Notify user of error
         Toast.makeText(requireActivity(),message,Toast.LENGTH_SHORT)
             .show()
+    }
+
+    private fun onShareButtonClick(headline: UiHeadline) {
+        activity?.let {
+            ShareCompat.IntentBuilder(it)
+                .setType(getString(R.string.mime_type_text))
+                .setText(headline.sourceUrl)
+                .setChooserTitle(getString(R.string.title_share_headline_chooser))
+                .startChooser()
+        }
     }
 }

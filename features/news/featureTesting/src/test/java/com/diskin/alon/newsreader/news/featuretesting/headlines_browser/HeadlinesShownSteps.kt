@@ -24,7 +24,6 @@ import com.mauriciotogneri.greencoffee.annotations.And
 import com.mauriciotogneri.greencoffee.annotations.Given
 import com.mauriciotogneri.greencoffee.annotations.Then
 import com.mauriciotogneri.greencoffee.annotations.When
-import io.mockk.clearAllMocks
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import org.joda.time.DateTime
@@ -174,7 +173,8 @@ class HeadlinesShownSteps(
                     apiArticle.title,
                     DateTime(apiArticle.publishedAt).toString(dateFormat),
                     apiArticle.urlToImage ?: "",
-                    apiArticle.source.name
+                    apiArticle.source.name,
+                    apiArticle.url
                 )
             )
         }

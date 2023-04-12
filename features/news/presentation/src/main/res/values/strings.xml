@@ -5,4 +5,6 @@
     <string name="stub_headline_date">Today</string>
     <string name="error_message_device_connection">Please check network connection</string>
     <string name="error_message_remote_server">Remote server error,please try again later</string>
+    <string name="mime_type_text">text</string>
+    <string name="title_share_headline_chooser">Share headline</string>
 </resources>

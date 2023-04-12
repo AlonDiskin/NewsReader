@@ -4,4 +4,5 @@ data class UiHeadline(val id: String,
                       val title: String,
                       val date: String,
                       val imageUrl: String,
-                      val sourceName: String)
+                      val sourceName: String,
+                      val sourceUrl: String)

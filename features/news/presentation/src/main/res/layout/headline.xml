@@ -4,9 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="kotlin.jvm.functions.Function1"/>
+        <import type="kotlin.Unit"/>
+        <import type="com.diskin.alon.newsreader.news.presentation.model.UiHeadline"/>
+
         <variable
             name="headline"
-            type="com.diskin.alon.newsreader.news.presentation.model.UiHeadline" />
+            type="UiHeadline" />
+        <variable
+            name="shareClickListener"
+            type="Function1&lt;UiHeadline,Unit>" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -48,11 +55,12 @@
                 tools:text="@string/stub_headline_title"/>
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/shareImageButton"
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="48dp"
+                android:onClick="@{() -> shareClickListener.invoke(headline)}"
                 app:layout_constraintEnd_toEndOf="@id/imageButton2"
                 app:layout_constraintTop_toTopOf="@id/imageButton2"
                 app:srcCompat="@drawable/ic_round_share_24" />

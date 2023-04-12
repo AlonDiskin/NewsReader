@@ -19,7 +19,12 @@ Feature: News headlines browser
       | device connectivity | reconnect action    |
       | remote server       | description message |
 
+  #Rule: Enable headline sharing
 
-  #Rule: Provide headline sharing
+  @headline-shared
+  Scenario: Headline shared
+    Given user selected to share first shown headlines
+    Then app should share headline vie device sharing menu
+
 
   #Rule: Enable article source reading

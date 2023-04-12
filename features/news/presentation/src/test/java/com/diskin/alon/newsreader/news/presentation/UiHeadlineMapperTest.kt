@@ -6,13 +6,10 @@ import com.diskin.alon.newsreader.news.presentation.viewmodel.UiHeadlineMapper
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockkStatic
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.joda.time.DateTime
 import org.junit.Before
 import org.junit.Test
@@ -45,7 +42,8 @@ class UiHeadlineMapperTest {
             headline.title,
             "10 Apr, 12:15",
             headline.imageUrl,
-            headline.sourceName
+            headline.sourceName,
+            headline.sourceUrl
         )
 
         mockkStatic(Dispatchers::Default)

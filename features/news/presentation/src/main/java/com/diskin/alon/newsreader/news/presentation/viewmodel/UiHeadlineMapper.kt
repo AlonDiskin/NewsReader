@@ -18,7 +18,8 @@ class UiHeadlineMapper @Inject constructor() {
                 headline.title,
                 DateTime(headline.published).toString(dateFormat),
                 headline.imageUrl,
-                headline.sourceName
+                headline.sourceName,
+                headline.sourceUrl
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.diskin.alon.newsreader.news.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.os.Looper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.*
@@ -8,8 +9,11 @@ import androidx.paging.*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -224,5 +228,33 @@ class HeadlinesFragmentTest {
 
         // Then
         verify { anyConstructed<HeadlinesAdapter>().refresh() }
+    }
+
+    @Test
+    fun shareHeadlineUrl_WhenUserSelectToShareIt() {
+        // Given
+        val uiHeadlines = createUiHeadlines()
+        headlines.value = PagingData.from(listOf(uiHeadlines.first()))
+
+        Intents.init()
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // When
+        onView(withId(R.id.shareImageButton))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_CHOOSER))
+        Intents.intended(IntentMatchers.hasExtraWithKey(Intent.EXTRA_INTENT))
+
+        val intent = Intents.getIntents().first().extras?.get(Intent.EXTRA_INTENT) as Intent
+        val context = ApplicationProvider.getApplicationContext<Context>()!!
+
+        assertThat(intent.type).isEqualTo(context.getString(R.string.mime_type_text))
+        assertThat(intent.getStringExtra(Intent.EXTRA_TEXT))
+            .isEqualTo(uiHeadlines.first().sourceUrl)
+
+        Intents.release()
     }
 }
