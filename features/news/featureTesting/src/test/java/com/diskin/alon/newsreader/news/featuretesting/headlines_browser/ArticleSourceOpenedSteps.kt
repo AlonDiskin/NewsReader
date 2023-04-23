@@ -1,11 +1,11 @@
 package com.diskin.alon.newsreader.news.featuretesting.headlines_browser
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Looper
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import com.diskin.alon.newsreader.common.uitesting.HiltTestActivity
@@ -18,7 +18,6 @@ import com.diskin.alon.newsreader.news.data.remote.NewsApiResponse
 import com.diskin.alon.newsreader.news.presentation.R
 import com.diskin.alon.newsreader.news.presentation.model.UiHeadline
 import com.diskin.alon.newsreader.news.presentation.ui.HeadlinesFragment
-import com.google.common.truth.Truth.*
 import com.google.gson.Gson
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps
 import com.mauriciotogneri.greencoffee.annotations.Given
@@ -28,7 +27,7 @@ import org.joda.time.DateTime
 import org.robolectric.Shadows
 import java.io.File
 
-class HeadlineSharedSteps(
+class ArticleSourceOpenedSteps(
     private val newsApi: NewsApi
 ) : GreenCoffeeSteps() {
 
@@ -47,31 +46,25 @@ class HeadlineSharedSteps(
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 
-    @Given("^user selected to share first shown headlines$")
-    fun user_selected_to_share_first_shown_headlines() {
+    @Given("^user selected to read first shown headlines in browser$")
+    fun user_selected_to_read_first_shown_headlines_in_browser() {
         Intents.init()
 
-        onView(withRecyclerView(R.id.headlines).atPositionOnView(0,R.id.shareImageButton))
-            .perform(click())
+        onView(withRecyclerView(R.id.headlines)
+            .atPositionOnView(0, R.id.card))
+            .perform(ViewActions.click())
 
         Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 
-    @Then("^app should share headline vie device sharing menu$")
-    fun app_should_share_headline_vie_device_sharing_menu() {
+    @Then("^app should open article source in device default browser$")
+    fun app_should_open_article_source_in_device_default_browser() {
         val json = getJsonFromResource("json/news_api_headlines_page_1.json")
         val expectedUiHeadlines = parseServerResponseToExpectedUiHeadlines(json)
-        val expectedIntentMimeType = "text/plain"
-        val expectedShareUrl = expectedUiHeadlines.first().sourceUrl
 
-        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_CHOOSER))
-        Intents.intended(IntentMatchers.hasExtraWithKey(Intent.EXTRA_INTENT))
-
-        val intent = Intents.getIntents().first().extras?.get(Intent.EXTRA_INTENT) as Intent
-
-        assertThat(intent.type).isEqualTo(expectedIntentMimeType)
-        assertThat(intent.getStringExtra(Intent.EXTRA_TEXT))
-            .isEqualTo(expectedShareUrl)
+        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_VIEW))
+        Intents.intended(IntentMatchers.hasData(Uri.parse(expectedUiHeadlines
+            .first().sourceUrl)))
 
         Intents.release()
     }

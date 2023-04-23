@@ -1,7 +1,7 @@
-package com.diskin.alon.newsreader.news.di
+package com.diskin.alon.newsreader.di
 
-import com.diskin.alon.newsreader.news.data.remote.NEWS_API_BASE
 import com.diskin.alon.newsreader.news.data.remote.NewsApi
+import com.diskin.alon.newsreader.util.NetworkUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkingModule {
+object TestWeatherNetworkingModule {
 
     @Singleton
     @Provides
@@ -35,9 +35,9 @@ object NetworkingModule {
 
     @Singleton
     @Provides
-    fun provideFeedlyApi(httpClient: OkHttpClient): NewsApi {
+    fun provideNewsApi(httpClient: OkHttpClient): NewsApi {
         return Retrofit.Builder()
-            .baseUrl(NEWS_API_BASE)
+            .baseUrl(NetworkUtil.url)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()

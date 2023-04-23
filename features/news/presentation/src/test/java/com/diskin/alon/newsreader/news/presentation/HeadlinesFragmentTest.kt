@@ -1,9 +1,12 @@
 package com.diskin.alon.newsreader.news.presentation
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Looper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.paging.*
 import androidx.test.core.app.ActivityScenario
@@ -233,10 +236,10 @@ class HeadlinesFragmentTest {
     @Test
     fun shareHeadlineUrl_WhenUserSelectToShareIt() {
         // Given
+        val context = ApplicationProvider.getApplicationContext<Context>()!!
         val uiHeadlines = createUiHeadlines()
         headlines.value = PagingData.from(listOf(uiHeadlines.first()))
 
-        Intents.init()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
 
         // When
@@ -245,16 +248,68 @@ class HeadlinesFragmentTest {
         Shadows.shadowOf(Looper.getMainLooper()).idle()
 
         // Then
-        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_CHOOSER))
-        Intents.intended(IntentMatchers.hasExtraWithKey(Intent.EXTRA_INTENT))
+        scenario.onActivity {
+            assertThat(
+                Shadows.shadowOf(it).peekNextStartedActivity().action
+            ).isEqualTo(Intent.ACTION_CHOOSER)
+            assertThat(
+                Shadows.shadowOf(it).peekNextStartedActivity().hasExtra(Intent.EXTRA_INTENT)
+            ).isTrue()
+            assertThat(
+                (Shadows.shadowOf(it).peekNextStartedActivity().extras!!.get(Intent.EXTRA_INTENT) as Intent)
+                    .type
+            ).isEqualTo(context.getString(R.string.mime_type_text))
+            assertThat(
+                (Shadows.shadowOf(it).peekNextStartedActivity().extras!!.get(Intent.EXTRA_INTENT) as Intent)
+                    .getStringExtra(Intent.EXTRA_TEXT)
+            ).isEqualTo(uiHeadlines.first().sourceUrl)
+        }
+    }
 
-        val intent = Intents.getIntents().first().extras?.get(Intent.EXTRA_INTENT) as Intent
-        val context = ApplicationProvider.getApplicationContext<Context>()!!
+    @Test
+    fun openHeadlineSourceArticleInBrowser_WhenUserSelectHeadline() {
+        // Given
+        Intents.init()
 
-        assertThat(intent.type).isEqualTo(context.getString(R.string.mime_type_text))
-        assertThat(intent.getStringExtra(Intent.EXTRA_TEXT))
-            .isEqualTo(uiHeadlines.first().sourceUrl)
+        val uiHeadlines = createUiHeadlines()
+        headlines.value = PagingData.from(listOf(uiHeadlines.first()))
+
+        // When
+        onView(withId(R.id.card))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        Intents.intended(IntentMatchers.hasAction(Intent.ACTION_VIEW))
+        Intents.intended(IntentMatchers.hasData(Uri.parse(uiHeadlines.first().sourceUrl)))
 
         Intents.release()
+    }
+
+    @Test
+    fun notifyUser_WhenDeviceUnableToOpenArticleInBrowser() {
+        // Given
+        val uiHeadlines = createUiHeadlines()
+        headlines.value = PagingData.from(listOf(uiHeadlines.first()))
+
+        mockkStatic(ContextCompat::class)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+        every { ContextCompat.startActivity(any(),any(),any()) } throws ActivityNotFoundException()
+
+        // When
+        onView(withId(R.id.card))
+            .perform(click())
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        val actualToastMessage = ShadowToast.getTextOfLatestToast()
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val expectedMessage = context.getString(R.string.message_article_unavailable)
+
+        assertThat(actualToastMessage).isEqualTo(expectedMessage)
+
+        // After
+        clearStaticMockk(ContextCompat::class)
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
     }
 }

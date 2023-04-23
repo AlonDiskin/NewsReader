@@ -26,5 +26,9 @@ Feature: News headlines browser
     Given user selected to share first shown headlines
     Then app should share headline vie device sharing menu
 
-
   #Rule: Enable article source reading
+
+  @article-source-opened
+  Scenario: Article source opened
+    Given user selected to read first shown headlines in browser
+    Then app should open article source in device default browser

@@ -31,7 +31,7 @@ import kotlin.coroutines.CoroutineContext
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = HiltTestApplication::class,instrumentedPackages = ["androidx.loader.content"])
 @MediumTest
-class HeadlinesShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
+class ArticleSourceOpenedStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scenario) {
 
     companion object {
         @JvmStatic
@@ -40,7 +40,7 @@ class HeadlinesShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scen
             val res = ArrayList<Array<Any>>()
             val scenarioConfigs = GreenCoffeeConfig()
                 .withFeatureFromAssets("feature/headlines_browser.feature")
-                .withTags("@show-headlines")
+                .withTags("@article-source-opened")
                 .scenarios()
 
             for (scenarioConfig in scenarioConfigs) {
@@ -68,9 +68,9 @@ class HeadlinesShownStepsRunner(scenario: ScenarioConfig) : GreenCoffeeTest(scen
         mockkStatic(Dispatchers::Default)
         every { Dispatchers.Default } returns testDispatcher
         every { Dispatchers.Default.fold<Any>(any(), any()) } answers { testDispatcher.fold(firstArg(), secondArg())}
-        every { Dispatchers.Default.get<CoroutineContext.Element>(any()) } answers { testDispatcher.get(firstArg()) }
+        every { Dispatchers.Default.get<CoroutineContext.Element>(any()) } answers { testDispatcher[firstArg()] }
 
         hiltRule.inject()
-        start(HeadlinesShownSteps(newsApi))
+        start(ArticleSourceOpenedSteps(newsApi))
     }
 }

@@ -14,6 +14,9 @@
         <variable
             name="shareClickListener"
             type="Function1&lt;UiHeadline,Unit>" />
+        <variable
+            name="headlineClickListener"
+            type="Function1&lt;UiHeadline,Unit>" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,7 +24,9 @@
         style="?attr/materialCardViewFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> headlineClickListener.invoke(headline)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

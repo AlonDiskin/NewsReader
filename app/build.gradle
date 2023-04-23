@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.diskin.alon.newsreader.util.CustomTestRunner"
         multiDexEnabled true
     }
 
@@ -45,10 +45,15 @@ dependencies {
 
     // Project modules
     implementation project(':features:home:presentation')
+    implementation project(':features:news:di')
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    // Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$navComponentVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navComponentVersion"
 
     // Testing Instrumentation
     androidTestImplementation project(':features:common:uiTesting')
@@ -56,4 +61,11 @@ dependencies {
     androidTestImplementation  "com.google.dagger:hilt-android-testing:$hiltVersion"
     androidTestImplementation "com.mauriciotogneri:greencoffee:$greencoffeeVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.5.1"
+    androidTestImplementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    androidTestImplementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    androidTestImplementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    androidTestImplementation 'com.google.code.gson:gson:2.8.6'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:3.9.1"
+//    androidTestImplementation "io.mockk:mockk-android:1.13.5"
 }

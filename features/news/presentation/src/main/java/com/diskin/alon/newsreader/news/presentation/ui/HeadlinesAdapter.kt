@@ -9,7 +9,8 @@ import com.diskin.alon.newsreader.news.presentation.databinding.HeadlineBinding
 import com.diskin.alon.newsreader.news.presentation.model.UiHeadline
 
 class HeadlinesAdapter(
-    private val shareClickListener: (UiHeadline) -> (Unit)
+    private val shareClickListener: (UiHeadline) -> (Unit),
+    private val headlineClickListener: (UiHeadline) -> (Unit)
 ) : PagingDataAdapter<UiHeadline, HeadlinesAdapter.HeadlineViewHolder>(
     DIFF_CALLBACK
 ){
@@ -34,7 +35,7 @@ class HeadlinesAdapter(
             false
         )
 
-        return HeadlineViewHolder(binding,shareClickListener)
+        return HeadlineViewHolder(binding,shareClickListener,headlineClickListener)
     }
 
     override fun onBindViewHolder(holder: HeadlineViewHolder, position: Int) {
@@ -43,11 +44,13 @@ class HeadlinesAdapter(
 
     class HeadlineViewHolder(
         private val binding: HeadlineBinding,
-        private val shareClickListener: (UiHeadline) -> (Unit)
+        shareClickListener: (UiHeadline) -> (Unit),
+        headlineClickListener: (UiHeadline) -> (Unit)
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.shareClickListener = shareClickListener
+            binding.headlineClickListener = headlineClickListener
         }
 
         fun bind(headline: UiHeadline) {

@@ -1,5 +1,8 @@
 package com.diskin.alon.newsreader.news.presentation.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +38,7 @@ class HeadlinesFragment : Fragment() {
         layout = FragmentHeadlinesBinding.inflate(inflater,container,false)
 
         // Setup headlines adapter
-        val adapter = HeadlinesAdapter(::onShareButtonClick)
+        val adapter = HeadlinesAdapter(::onShareButtonClick,::onHeadlineClick)
         layout.headlines.adapter = adapter
 
         // Observe view model ui state
@@ -88,6 +91,21 @@ class HeadlinesFragment : Fragment() {
                 .setText(headline.sourceUrl)
                 .setChooserTitle(getString(R.string.title_share_headline_chooser))
                 .startChooser()
+        }
+    }
+
+    private fun onHeadlineClick(headline: UiHeadline) {
+        val urlIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(headline.sourceUrl)
+        )
+
+        try {
+            startActivity(urlIntent)
+        } catch (e: ActivityNotFoundException) {
+            // Notify user that device cannot open article
+            Toast.makeText(requireActivity(),getString(R.string.message_article_unavailable),Toast.LENGTH_SHORT)
+                .show()
         }
     }
 }

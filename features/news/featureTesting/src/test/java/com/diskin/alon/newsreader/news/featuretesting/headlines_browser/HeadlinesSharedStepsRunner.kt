@@ -3,7 +3,7 @@ package com.diskin.alon.newsreader.news.featuretesting.headlines_browser
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.MediumTest
 import com.diskin.alon.newsreader.news.data.remote.NewsApi
-import com.diskin.alon.newsreader.news.di.NetworkingModule
+import com.diskin.alon.newsreader.news.di.NewsNetworkingModule
 import com.mauriciotogneri.greencoffee.GreenCoffeeConfig
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest
 import com.mauriciotogneri.greencoffee.ScenarioConfig
@@ -26,7 +26,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @HiltAndroidTest
-@UninstallModules(NetworkingModule::class)
+@UninstallModules(NewsNetworkingModule::class)
 @RunWith(ParameterizedRobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = HiltTestApplication::class,instrumentedPackages = ["androidx.loader.content"])
