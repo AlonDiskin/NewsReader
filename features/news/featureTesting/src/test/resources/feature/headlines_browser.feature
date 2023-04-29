@@ -15,9 +15,10 @@ Feature: News headlines browser
     When user open headlines screen
     Then app should handle error as "<handling>"
     Examples:
-      | error               | handling            |
-      | device connectivity | reconnect action    |
-      | remote server       | description message |
+      | error               | handling                             |
+      | device connectivity | show device connection error message |
+      | remote server       | show remote server error message     |
+      | app internal error  | show app error message               |
 
   #Rule: Enable headline sharing
 

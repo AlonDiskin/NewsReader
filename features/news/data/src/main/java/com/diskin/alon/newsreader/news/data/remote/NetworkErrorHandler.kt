@@ -16,7 +16,7 @@ class NetworkErrorHandler @Inject constructor() {
             // This code reports all errors to the UI
             is IOException -> NewsFeatureError.DeviceConnectionError
             is HttpException -> NewsFeatureError.RemoteServerError
-            else -> error
+            else -> NewsFeatureError.InternalAppError
         }
     }
 }
