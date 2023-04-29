@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stub_headline_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="stub_headline_source">TheVerge</string>
+    <string name="stub_headline_date">Today</string>
+    <string name="error_message_device_connection">Please check network connection</string>
+    <string name="error_message_remote_server">Remote server error,please try again later</string>
+    <string name="mime_type_text">text/plain</string>
+    <string name="title_share_headline_chooser">Share headline</string>
+    <string name="message_article_unavailable">Device has no browser,article unavailable!</string>
+</resources>
