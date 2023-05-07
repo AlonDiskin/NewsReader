@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "150314763554",
+    "project_id": "newsreader-3543f",
+    "storage_bucket": "newsreader-3543f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150314763554:android:4e1b927354e1a4de52d17b",
+        "android_client_info": {
+          "package_name": "com.diskin.alon.newsreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150314763554-gv7iuogel4sbdvh3hjoiqolbubfb9r3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFNh7Wsz7iZTb7flM4NgQjnrbvhRkqZRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150314763554-gv7iuogel4sbdvh3hjoiqolbubfb9r3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
