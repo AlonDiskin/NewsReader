@@ -154,7 +154,7 @@ class HeadlinesFragmentTest {
     }
 
     @Test
-    fun showErrorIndicator_WhenHeadlinesRefreshFailOnDeviceConnection() {
+    fun showErrorMessage_WhenHeadlinesRefreshFailOnDeviceConnection() {
         // Given
         val error = NewsFeatureError.DeviceConnectionError
         val loadState = CombinedLoadStates(
@@ -185,7 +185,7 @@ class HeadlinesFragmentTest {
     }
 
     @Test
-    fun showErrorIndicator_WhenHeadlinesRefreshFailOnRemoteServer() {
+    fun showErrorMessage_WhenHeadlinesRefreshFailOnRemoteServer() {
         // Given
         val error = NewsFeatureError.RemoteServerError
         val loadState = CombinedLoadStates(
@@ -211,6 +211,37 @@ class HeadlinesFragmentTest {
         val actualToastMessage = ShadowToast.getTextOfLatestToast()
         val context = ApplicationProvider.getApplicationContext<Context>()
         val expectedMessage = context.getString(R.string.error_message_remote_server)
+
+        assertThat(actualToastMessage).isEqualTo(expectedMessage)
+    }
+
+    @Test
+    fun showErrorMessage_WhenHeadlinesRefreshFailOnAppError() {
+        // Given
+        val error = NewsFeatureError.InternalAppError
+        val loadState = CombinedLoadStates(
+            LoadState.Error(error),
+            LoadState.NotLoading(true),
+            LoadState.NotLoading(true),
+            LoadStates(
+                LoadState.NotLoading(true),
+                LoadState.NotLoading(true),
+                LoadState.NotLoading(true)
+            )
+        )
+
+        // When
+        scenario.onActivity {
+            val fragment = it.supportFragmentManager.fragments[0] as HeadlinesFragment
+
+            fragment.handleHeadlinesLoadStateUpdates(loadState)
+        }
+        Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+        // Then
+        val actualToastMessage = ShadowToast.getTextOfLatestToast()
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val expectedMessage = context.getString(R.string.error_message_internal)
 
         assertThat(actualToastMessage).isEqualTo(expectedMessage)
     }

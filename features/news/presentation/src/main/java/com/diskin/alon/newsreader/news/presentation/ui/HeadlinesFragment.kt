@@ -73,6 +73,7 @@ class HeadlinesFragment : Fragment() {
         val message = when(error) {
             is NewsFeatureError.DeviceConnectionError -> getString(R.string.error_message_device_connection)
             is NewsFeatureError.RemoteServerError -> getString(R.string.error_message_remote_server)
+            is NewsFeatureError.InternalAppError -> getString(R.string.error_message_internal)
             else -> {
                 error.printStackTrace()
                 "Unexpected error!"

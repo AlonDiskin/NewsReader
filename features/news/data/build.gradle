@@ -6,9 +6,15 @@ plugins {
 }
 
 // Hide news api key
-def localPropertiesFile = rootProject.file("local.properties")
+//def localPropertiesFile = rootProject.file("local.properties")
 def localProperties = new Properties()
-localProperties.load(new FileInputStream(localPropertiesFile))
+//localProperties.load(new FileInputStream(localPropertiesFile))
+
+if (rootProject.file("local.properties").exists()) {
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+} else {
+    localProperties.setProperty('newsApiKey',"\"API_KEY_STUB\"")
+}
 
 android {
     namespace 'com.diskin.alon.newsreader.news.data'

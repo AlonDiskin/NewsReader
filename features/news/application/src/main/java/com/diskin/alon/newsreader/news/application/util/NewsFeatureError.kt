@@ -5,4 +5,6 @@ sealed class NewsFeatureError : Throwable() {
     object DeviceConnectionError : NewsFeatureError()
 
     object RemoteServerError : NewsFeatureError()
+
+    object InternalAppError : NewsFeatureError()
 }
